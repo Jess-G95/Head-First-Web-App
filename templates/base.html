@@ -1,0 +1,35 @@
+<!doctype html>
+
+<html>
+
+    <head>
+    
+        <title>{{ the_title }}</title>
+        
+        <link rel="stylesheet" href="static/hf.css" />
+        
+    </head>
+    
+    <body>
+
+        <strong><nav>
+          <ul class="menu">
+            <li><a href="{{ url_for('entry_page') }}">Search for Letters</a></li>
+            <li><a href="{{ url_for('view_the_log') }}">View Log</a></li>
+            {%if session['logged_in']==True%}
+            <li><a href="{{url_for('do_logout')}}">Logout</a></li>
+           {%else%}
+            <li><a href="{{url_for('do_login')}}">Login</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
+          </ul>
+        </nav></strong>
+    
+        {% block body %}
+        
+
+        {% endblock %}
+        
+    </body>
+    
+</html>
