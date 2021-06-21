@@ -23,7 +23,7 @@ def search_for_letters(phrase: str, letters: str= 'aeiou') -> set:
 @app.route('/login', methods=['GET', 'POST'])
 def do_login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        with UseDatabase(app.config['dbconfig']) as cursor:
+        with UseDatabase(app.config['dbconfig']) as cursor: # TODO: add try/except to UseDatabase
             _SQL = """SELECT * FROM users WHERE username=%s  AND password=%s"""
             cursor.execute(_SQL, (request.form['username'],
                                   request.form['password'], ))
@@ -44,7 +44,7 @@ def do_logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        with UseDatabase(app.config['dbconfig']) as cursor:
+        with UseDatabase(app.config['dbconfig']) as cursor: # TODO: add try/except to UseDatabase
             _SQL = """SELECT * FROM users WHERE username=%s"""
             cursor.execute(_SQL, (request.form['username'], ))
             account_exists = cursor.fetchone()
@@ -68,7 +68,7 @@ def do_search() -> 'html':
     @copy_current_request_context
     def log_request(req: 'flask_request', res: str) -> None:
         sleep(15) # sleep to test delay exception
-        with UseDatabase(app.config['dbconfig']) as cursor: # add try/except to all UseDatabase
+        with UseDatabase(app.config['dbconfig']) as cursor: # TODO: add try/except to UseDatabase
             _SQL = """ insert into log
                     (phrase, letters, ip, browser_string, results)
                     values
