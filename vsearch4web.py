@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, escape, session, copy_current_request_context
-import vsearch
 from DBcm import UseDatabase, ConnectionError
 from checker import check_logged_in
 from threading import Thread
@@ -41,7 +40,7 @@ def do_search() -> 'html':
     phrase = request.form['phrase']
     letters = request.form['letters']
     title = 'Here are your results: '
-    results = str(vsearch.search_for_letters(phrase, letters))
+    results = str(search_for_letters(phrase, letters))
     try:
         t = Thread(target=log_request, args=(request, results))
         t.start()
