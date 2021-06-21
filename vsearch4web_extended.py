@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, escape, session, copy_current_request_context, url_for, redirect, flash
-import vsearch
 from DBcm import UseDatabase, ConnectionError
 from checker import check_logged_in
 from threading import Thread
@@ -10,7 +9,16 @@ app = Flask(__name__)
 app.config['dbconfig'] = { 'host': '127.0.0.1',
                  'user': 'vsearch',
                  'password': 'vsearchpasswd',
-                 'database': 'vsearchlogdb', }
+                 'database': 'vsearchlogDB', }
+
+def search_for_vowels(word: str) -> set:
+    """Display any vowels found in a supplied word."""
+    vowels = set('aeiou')
+    return vowels.intersection(set(word))
+
+def search_for_letters(phrase: str, letters: str= 'aeiou') -> set:
+    """Return a set of the 'letters' found in 'phrase'."""
+    return set(letters).intersection(set(phrase))
 
 @app.route('/login', methods=['GET', 'POST'])
 def do_login():
@@ -42,7 +50,7 @@ def sign_up():
             account_exists = cursor.fetchone()
             if account_exists:
                 flash('Username already exists')
-            elif request.form['username'] or request.form['username'] == '':
+            elif request.form['username'] =='' or request.form['password'] == '':
                 flash('Please enter a username and password.')
             else:
                 _SQL = """ insert into users
@@ -73,7 +81,7 @@ def do_search() -> 'html':
     phrase = request.form['phrase']
     letters = request.form['letters']
     title = 'Here are your results: '
-    results = str(vsearch.search_for_letters(phrase, letters))
+    results = str(search_for_letters(phrase, letters))
     try:
         t = Thread(target=log_request, args=(request, results))
         t.start()
