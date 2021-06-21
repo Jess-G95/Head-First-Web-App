@@ -42,4 +42,18 @@ python vsearch4web_extended.py
 # MySQL set up
 
 ```
+sudo mysql
+create database vsearchlogDB;
+CREATE USER 'vsearch'@'localhost' IDENTIFIED BY 'vsearchpasswd';
+GRANT ALL PRIVILEGES ON * . * TO 'vsearch'@'localhost';
+FLUSH PRIVILEGES;
+exit # exit and log in with the below
+sudo mysql -u vsearch -p vsearchlogDB # use vsearchpasswd when prompted for password
+create table log (id int auto_increment primary key, ts timestamp default current_timestamp, phrase varchar(128) not null, letters varchar(32) not null, ip varchar(16) not null, browser_string varchar(256) not null, results varchar(64) not null);
+describe log; # confirm table has been created and is correct
+CREATE TABLE users (username varchar(255), password varchar(255));
+INSERT INTO users VALUES ('me', 'testing'); # optional
+mysql> SELECT * FROM users; # view all entries in users table
+exit
+
 ```
