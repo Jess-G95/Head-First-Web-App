@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, escape, session, copy_current_request_context, url_for, redirect, flash
-#from flask_user import login_required
 import vsearch
 from DBcm import UseDatabase, ConnectionError
 from checker import check_logged_in
@@ -14,7 +13,7 @@ app.config['dbconfig'] = { 'host': '127.0.0.1',
                  'database': 'vsearchlogdb', }
 
 @app.route('/login', methods=['GET', 'POST'])
-def do_login() -> str: # correct annotation? + add check to see if already logged in
+def do_login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         with UseDatabase(app.config['dbconfig']) as cursor:
             _SQL = """SELECT * FROM users WHERE username=%s  AND password=%s"""
@@ -24,16 +23,14 @@ def do_login() -> str: # correct annotation? + add check to see if already logge
         if account:
             session['logged_in'] = True
             session['username'] = request.form['username']
-            #flash('Logged in successfully!')
             return redirect(url_for('entry_page'))
         else:
             flash('Invalid credentials. Please try again.')
     return render_template('login.html')
 
 @app.route('/logout')
-def do_logout() -> str: # correct annotation?
+def do_logout():
     session.pop('logged_in')
-    #return 'You are now logged out.'
     return redirect(url_for('entry_page'))
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -94,7 +91,6 @@ def entry_page() -> 'html':
     return render_template('entry.html', the_title='Welcome to search4letters on the web!')
 
 @app.route('/viewlog')
-#@login_required
 @check_logged_in
 def view_the_log() -> 'html':
     """Display the contents of the log file as an HTML table"""
