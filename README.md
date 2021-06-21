@@ -23,3 +23,23 @@ browse to http://127.0.0.1:5000/
 * Python 3
 * Flask
 * MySQL
+
+
+# Ubuntu set up
+
+```
+sudo apt install git
+git clone https://github.com/Jess-G95/Head-First-Web-App
+cd Head-First-Web-App/
+sudo apt install python3-pip
+pip install flask
+sudo apt install mysql-server
+sudo apt install libmysqlclient-dev
+pip install mysql-connector-python
+python vsearch4web_extended.py
+```
+
+# MySQL set up
+
+```
+```
