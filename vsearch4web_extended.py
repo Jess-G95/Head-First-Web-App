@@ -11,11 +11,6 @@ app.config['dbconfig'] = { 'host': '127.0.0.1',
                  'password': 'vsearchpasswd',
                  'database': 'vsearchlogDB', }
 
-def search_for_vowels(word: str) -> set:
-    """Display any vowels found in a supplied word."""
-    vowels = set('aeiou')
-    return vowels.intersection(set(word))
-
 def search_for_letters(phrase: str, letters: str= 'aeiou') -> set:
     """Return a set of the 'letters' found in 'phrase'."""
     return set(letters).intersection(set(phrase))
