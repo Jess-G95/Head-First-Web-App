@@ -1,4 +1,4 @@
-Web app created by following a tutorial in Head First Python.
+Web app created with Flask by following a tutorial from Head First Python.
 
 # Summary
 
